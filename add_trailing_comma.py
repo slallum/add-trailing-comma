@@ -402,43 +402,43 @@ def _fix_src(contents_text: str, py35_plus: bool, py36_plus: bool) -> str:
                     add_comma=add_comma,
                     remove_comma=True,
                 )
-        elif token.offset in visitor.funcs:
-            func = visitor.funcs[token.offset]
-            add_comma = not func.star_args or py36_plus
-            # functions can be treated as calls
-            _fix_brace(
-                tokens, _find_call(func, i, tokens),
-                add_comma=add_comma,
-                remove_comma=True,
-            )
-        elif token.offset in visitor.classes:
-            # classes can be treated as calls
-            cls = visitor.classes[token.offset]
-            _fix_brace(
-                tokens, _find_call(cls, i, tokens),
-                add_comma=True,
-                remove_comma=True,
-            )
+        # elif token.offset in visitor.funcs:
+        #     func = visitor.funcs[token.offset]
+        #     add_comma = not func.star_args or py36_plus
+        #     # functions can be treated as calls
+        #     _fix_brace(
+        #         tokens, _find_call(func, i, tokens),
+        #         add_comma=add_comma,
+        #         remove_comma=True,
+        #     )
+        # elif token.offset in visitor.classes:
+        #     # classes can be treated as calls
+        #     cls = visitor.classes[token.offset]
+        #     _fix_brace(
+        #         tokens, _find_call(cls, i, tokens),
+        #         add_comma=True,
+        #         remove_comma=True,
+        #     )
         elif token.offset in visitor.literals and token.src in START_BRACES:
             _fix_brace(
                 tokens, _find_simple(i, tokens),
                 add_comma=True,
                 remove_comma=not _one_el_tuple(visitor.literals[token.offset]),
             )
-        elif token.offset in visitor.imports:
-            # some imports do not have parens
-            _fix_brace(
-                tokens, _find_import(i, tokens),
-                add_comma=True,
-                remove_comma=True,
-            )
+        # elif token.offset in visitor.imports:
+        #     # some imports do not have parens
+        #     _fix_brace(
+        #         tokens, _find_import(i, tokens),
+        #         add_comma=True,
+        #         remove_comma=True,
+        #     )
         # Handle parenthesized things, unhug of tuples, and comprehensions
-        elif token.src in START_BRACES:
-            _fix_brace(
-                tokens, _find_simple(i, tokens),
-                add_comma=False,
-                remove_comma=False,
-            )
+        # elif token.src in START_BRACES:
+        #     _fix_brace(
+        #         tokens, _find_simple(i, tokens),
+        #         add_comma=False,
+        #         remove_comma=False,
+        #     )
 
         # need to handle tuples afterwards as tuples report their starting
         # starting index as the first element, which may be one of the above
@@ -501,3 +501,4 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
 if __name__ == '__main__':
     exit(main())
+
